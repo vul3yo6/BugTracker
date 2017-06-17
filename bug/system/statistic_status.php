@@ -37,7 +37,7 @@ if ($total_project) {
 	$show_array = array();
 	for ($i = 0; $i < sizeof($status_array); $i++) {
 		$sql = "select count(report_id) from proj".$_GET['project_id']."_report_table
-				where status=".$status_array[$i]->getstatusid()." $priority_sql";
+				where status=".$status_array[$i]->getstatusid()." ".$priority_sql;
 		$result = $GLOBALS['connection']->Execute($sql) or DBError(__FILE__.":".__LINE__);
 		$count = $result->fields[0];
 		if ($count_max < $count) {
@@ -161,7 +161,7 @@ if ($total_project) {
 	/* URL 參數 */
 	$url_project = $GLOBALS["SYS_URL_ROOT"]."/report/project_list.php?project_id=".$_GET['project_id'];
 	/* 取得優先順序 */
-	if (($_GET['priority'] != "") && ($_GET['priority'] <= 0)) {
+	if (($_GET['priority'] != "") && ($_GET['priority'] > 0)) {
 		$url_project .= "&priority=".$_GET['priority'];
 	}
 

@@ -23,11 +23,11 @@ $total_project = count($project_array);
 	}
 }*/
 
-/*if (($_GET['priority'] != "") && ($_GET['priority'] != -1)){
+if (($_GET['priority'] != "") && ($_GET['priority'] != -1)){
 	$priority_sql = "and priority=".$GLOBALS['connection']->QMagic($_GET['priority']);
 } else {
 	$priority_sql = "";
-}*/
+}
 $status_array = GetStatusArray();
 
 $count_max = 0;
@@ -40,17 +40,13 @@ if ($total_project) {
 		$sql = "select count(report_id) from proj".$project_class->getprojectid()."_report_table
 				left join status_table on 
 					proj".$project_class->getprojectid()."_report_table.status = status_table.status_id
-				where status_type='active'";
+				where status_type='active' ".$priority_sql;
 		$result = $GLOBALS['connection']->Execute($sql) or DBError(__FILE__.":".__LINE__);
 		$count = $result->fields[0];
 		if ($count_max < $count) {
 			$count_max = $count;
 		}
-		if ($count == 0) {
-			$count_closed += $count;
-		} else {
-			$count_active += $count;
-		}
+
 		/*if ($status_array[$i]->getstatustype() == "closed") {
 			$count_closed += $count;
 		} else {
@@ -58,6 +54,12 @@ if ($total_project) {
 		}
 		$the_array = array($status_array[$i]->getstatusname()=>$count);
 		$show_array = array_merge($show_array, $the_array);*/
+		
+		if ($count == 0) {
+			$count_closed += $count;
+		} else {
+			$count_active += $count;
+		}
 		$the_array = array($project_class->getprojectname()=>$count);
 		$show_array = array_merge($show_array, $the_array);
 	} 
@@ -107,7 +109,7 @@ function Change() {
 			<!--不需要-->
 				<form name="status_form" action="<?php echo $_SERVER['PHP_SELF']?>" method="GET">
 <?php
-echo $STRING['project'].$STRING['colon'];
+/*echo $STRING['project'].$STRING['colon'];
 echo '
 					<select size="1" name="project_id" onChange="return Change();">';
 for ($i = 0; $i<count($project_array); $i++) {
@@ -122,7 +124,8 @@ for ($i = 0; $i<count($project_array); $i++) {
 						</option>';
 }
 echo '
-					</select>&nbsp;&nbsp;
+					</select>&nbsp;&nbsp;*/
+echo '
 
 					'.$STRING['priority'].$STRING['colon'].'
 					<select size="1" name="priority" onChange="return Change();">
@@ -171,12 +174,12 @@ if ($total_project) {
 	$args = array_keys($show_array);
 
 	/* URL 參數 */
-	$url_project = "statistic_status.php";
+	$url_project = "statistic_status.php?priority=".$_GET['priority'];
 
 	for ($i = 0; $i < count($args); $i++) {
 		$key = $args[$i];
 		$value = $show_array[$key];
-		$url_params = $url_project."?project_id=".$project_array[$i]->getprojectid();
+		$url_params = $url_project."&project_id=".$project_array[$i]->getprojectid();
 
 		if ($value == 0) {
 			$table_width = 1;
