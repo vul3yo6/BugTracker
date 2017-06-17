@@ -157,9 +157,19 @@ echo '
 <?php
 if ($total_project) {
 	$args = array_keys($show_array);
+	//$values = array_values($show_array);
+
+	/* URL 參數 */
+	$url_project = $GLOBALS["SYS_URL_ROOT"]."/report/project_list.php?project_id=".$_GET['project_id'];
+	/* 取得優先順序 */
+	if (($_GET['priority'] != "") && ($_GET['priority'] <= 0)) {
+		$url_project .= "&priority=".$_GET['priority'];
+	}
+
 	for ($i = 0; $i < count($args); $i++) {
 		$key = $args[$i];
 		$value = $show_array[$key];
+		$url_params = $url_project."&status=".$status_array[$i]->getstatusid();
 
 		if ($value == 0) {
 			$table_width = 1;
@@ -173,7 +183,8 @@ if ($total_project) {
 		$style_count++;
 		echo '
 			<tr>
-				<td class="'.$td_class.'" align="right" nowrap>'.$key.$STRING['colon'].'</td>
+				<td class="'.$td_class.'" align="right" nowrap>
+					<a href="'.$url_params.'">'.$key.$STRING['colon'].'</a></td>
 				<td class="'.$td_class.'">
 					<table width="'.$table_width.'%" height="10" cellpadding="0" cellspacing="0">
 					<tr>
