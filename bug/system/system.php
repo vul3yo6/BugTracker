@@ -18,6 +18,7 @@ if ($_GET['page'] == "information") {
 		$show_function['login_statistic'] = "system/login_statistic.php";
 		$show_function['statistic_new_report'] = "system/statistic_new_report.php";
 		$show_function['statistic_status'] = "system/statistic_status.php";
+		$show_function['statistic_status_addon'] = "system/statistic_status_addon.php";
 		$show_function['statistic_feedback_report'] = "system/statistic_feedback_report.php";
 	}
 	$show_function['system_about'] = "system/system_about.php";
@@ -31,6 +32,7 @@ if ($_GET['page'] == "information") {
 		$function_pic['login_statistic'] = "statistic_login.png";
 		$function_pic['statistic_new_report'] = "statistic_new_report.png";
 		$function_pic['statistic_status'] = "statistic_status.png";
+		$function_pic['statistic_status_addon'] = "statistic_status.png";
 		$function_pic['statistic_feedback_report'] = "statistic_feedback.png";
 	}
 	$function_pic['system_about'] = "system_about.png";

@@ -17,17 +17,17 @@ if (!($GLOBALS['Privilege'] & $GLOBALS['can_see_statistic'])) {
 
 $project_array = GetAllProjects($_SESSION[SESSION_PREFIX.'uid']);
 $total_project = count($project_array);
-if ($_GET['project_id'] == "") {
+/*if ($_GET['project_id'] == "") {
 	if ($total_project > 0) {
 		$_GET['project_id'] = $project_array[0]->getprojectid();
 	}
-}
+}*/
 
-if (($_GET['priority'] != "") && ($_GET['priority'] != -1)){
+/*if (($_GET['priority'] != "") && ($_GET['priority'] != -1)){
 	$priority_sql = "and priority=".$GLOBALS['connection']->QMagic($_GET['priority']);
 } else {
 	$priority_sql = "";
-}
+}*/
 $status_array = GetStatusArray();
 
 $count_max = 0;
@@ -35,20 +35,30 @@ $count_closed = 0;
 $count_active = 0;
 if ($total_project) {
 	$show_array = array();
-	for ($i = 0; $i < sizeof($status_array); $i++) {
-		$sql = "select count(report_id) from proj".$_GET['project_id']."_report_table
-				where status=".$status_array[$i]->getstatusid()." $priority_sql";
+	for ($i = 0; $i < sizeof($project_array); $i++) {
+		$project_class = $project_array[$i];
+		$sql = "select count(report_id) from proj".$project_class->getprojectid()."_report_table
+				left join status_table on 
+					proj".$project_class->getprojectid()."_report_table.status = status_table.status_id
+				where status_type='active'";
 		$result = $GLOBALS['connection']->Execute($sql) or DBError(__FILE__.":".__LINE__);
 		$count = $result->fields[0];
 		if ($count_max < $count) {
 			$count_max = $count;
 		}
-		if ($status_array[$i]->getstatustype() == "closed") {
+		if ($count == 0) {
+			$count_closed += $count;
+		} else {
+			$count_active += $count;
+		}
+		/*if ($status_array[$i]->getstatustype() == "closed") {
 			$count_closed += $count;
 		} else {
 			$count_active += $count;
 		}
 		$the_array = array($status_array[$i]->getstatusname()=>$count);
+		$show_array = array_merge($show_array, $the_array);*/
+		$the_array = array($project_class->getprojectname()=>$count);
 		$show_array = array_merge($show_array, $the_array);
 	} 
 	
@@ -94,6 +104,7 @@ function Change() {
 				<tt class="outline"><?php echo $STRING['statistic_status']?></tt>
 			</td>
 			<td nowrap width="100%" align="center" valign="bottom">
+			<!--不需要-->
 				<form name="status_form" action="<?php echo $_SERVER['PHP_SELF']?>" method="GET">
 <?php
 echo $STRING['project'].$STRING['colon'];
@@ -137,6 +148,7 @@ echo '
 
 					<input type="submit" name="B1" value="<?php echo $STRING['button_go']?>" class="button">
 				</form>
+			<!--不需要-->
 			</td>
 			<td nowrap valign="bottom">
 				<a href="system.php?page=information"><img src="<?php echo $GLOBALS["SYS_URL_ROOT"]?>/images/return.png" border="0" align="middle"><?php echo $STRING['back']?></a>
@@ -151,24 +163,20 @@ echo '
 			
 			<table class="table-main-list" align="center">
 			<tr>	
-				<td width="180" align="center" class="title"><?php echo $STRING['status']?></td>
-				<td width="520" align="center" class="title"><?php echo $STRING['count_number']?></td>
+				<td width="180" align="center" class="title"><?php echo $STRING['project']?></td>
+				<td width="520" align="center" class="title"><?php echo $STRING['status_type_active'].$STRING['count_number']?></td>
 			</tr>
 <?php
 if ($total_project) {
 	$args = array_keys($show_array);
 
 	/* URL 參數 */
-	$url_project = $GLOBALS["SYS_URL_ROOT"]."/report/project_list.php?project_id=".$_GET['project_id'];
-	/* 取得優先順序 */
-	if (($_GET['priority'] != "") && ($_GET['priority'] <= 0)) {
-		$url_project .= "&priority=".$_GET['priority'];
-	}
+	$url_project = "statistic_status.php";
 
 	for ($i = 0; $i < count($args); $i++) {
 		$key = $args[$i];
 		$value = $show_array[$key];
-		$url_params = $url_project."&status=".$status_array[$i]->getstatusid();
+		$url_params = $url_project."?project_id=".$project_array[$i]->getprojectid();
 
 		if ($value == 0) {
 			$table_width = 1;
