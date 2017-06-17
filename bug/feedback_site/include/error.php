@@ -197,10 +197,19 @@ function WriteSyslog($log_type, $log_string_key, $arg_key = "", $arg_string = ""
 		$arg_string = utf8_substr($arg_string, 0, 127);
 	}
 
+	/* 
+	 * https://www.twbsd.org/forum/3/1129 
+	 * feedback_site 出現 Failed to do syslog
+	 */
+	$customer_email = $_SESSION[SESSION_PREFIX.'feedback_email']; 
+    if (is_null($customer_email)) { 
+        $customer_email = ""; 
+    } 
+
 	$now = $GLOBALS['connection']->DBTimeStamp(time());
 	$sql = "insert into ".$GLOBALS['BR_feedback_syslog_table']."(customer_email, ip, log_type,
 			time, log_string_key, arg_key, arg_string) values(
-			".$GLOBALS['connection']->QMagic($_SESSION[SESSION_PREFIX.'feedback_email']).",
+			".$GLOBALS['connection']->QMagic($customer_email).",
 			".$GLOBALS['connection']->QMagic($_SERVER['REMOTE_ADDR']).", $log_type,
 			$now, ".$GLOBALS['connection']->QMagic($log_string_key).", 
 			".$GLOBALS['connection']->QMagic($arg_key).", 
