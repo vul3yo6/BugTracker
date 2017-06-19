@@ -37,7 +37,8 @@ $GLOBALS['BR_dbdebug'] = false;
  * by Bug Tracker, set this option to "TRUE" to debug. Remember to turn it off
  * by set to "FALSE" after debug.
  */
-$GLOBALS["smtp_debug"] = FALSE;
+$GLOBALS["smtp_debug"] = false;
+//$GLOBALS["smtp_debug"] = true;
 
 
 /* ============= No need to change anything below ============================*/

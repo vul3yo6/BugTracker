@@ -11,8 +11,16 @@ $GLOBALS['BR_dbuser'] = "root";			// User name to access the database
 $GLOBALS['BR_dbpwd'] = "";		// Database password
 $GLOBALS['BR_dbname'] = "bugdb";		// Database name for bug tracker
 
+/* Set to true if you want to debug */
 $GLOBALS['BR_dbdebug'] = false;
 //$GLOBALS['BR_dbdebug'] = true;
+
+/* This option is used to debug SMTP function. If you can't receive mail sent
+ * by Bug Tracker, set this option to "TRUE" to debug. Remember to turn it off
+ * by set to "FALSE" after debug.
+ */
+$GLOBALS["smtp_debug"] = false;
+//$GLOBALS["smtp_debug"] = true;
 
 
 /* ============= No need to change anything below ============================*/
