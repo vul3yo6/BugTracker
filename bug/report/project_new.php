@@ -127,7 +127,7 @@ function OnLocalSubmit(form)
 
 <?php
 	
-for ($i=0; $i<6; $i++) {
+for ($i=0; $i<15; $i++) {
 	echo '
 					<select size="1" name="auto_email_'.$i.'">
 						<option value=-1></option>';
@@ -158,7 +158,7 @@ for ($i=0; $i<6; $i++) {
 
 <?php
 
-for ($i=0; $i<6; $i++) {
+for ($i=0; $i<15; $i++) {
 	echo '
 					<select size="1" name="feedback_mailto_'.$i.'">
 						<option value=-1></option>';

@@ -168,7 +168,7 @@ while ($row = $get_mailto_result->FetchRow()) {
 }
 
 
-for ($i=0; $i<6; $i++) {
+for ($i=0; $i<15; $i++) {
 	echo '
 					<select size="1" name="auto_email_'.$i.'">
 						<option value=-1></option>';
@@ -210,7 +210,7 @@ while ($row = $get_feedback_mailto_result->FetchRow()) {
 	array_push($old_feedback_mailto_array, $user_id);
 }
 
-for ($i=0; $i<6; $i++) {
+for ($i=0; $i<15; $i++) {
 	echo '
 					<select size="1" name="feedback_mailto_'.$i.'">
 						<option value=-1></option>';

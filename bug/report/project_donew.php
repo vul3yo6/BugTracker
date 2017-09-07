@@ -64,7 +64,7 @@ for ($i = 0; $i < sizeof($sql_array) - 1; $i++) {
 }
 
 $auto_mail_array = array();
-for ($i=0; $i<6; $i++) {
+for ($i=0; $i<15; $i++) {
 	$this_arg = "auto_email_".$i;
 	if ($_POST[$this_arg] != -1) {
 		if (IsInArray($auto_mail_array, $_POST[$this_arg]) == -1) {
@@ -80,7 +80,7 @@ for ($i = 0; $i < sizeof($auto_mail_array); $i++) {
 }
 
 $feedback_mailto_array = array();
-for ($i=0; $i<6; $i++) {
+for ($i=0; $i<15; $i++) {
 	$this_arg = "feedback_mailto_".$i;
 	if ($_POST[$this_arg] != -1) {
 		if (IsInArray($feedback_mailto_array, $_POST[$this_arg]) == -1) {
@@ -109,7 +109,7 @@ for ($i=0; $i < sizeof($all_allow_uid); $i++) {
 
 if ($GLOBALS['SYS_FILE_IN_DB'] != 1) {
 	$newdir="upload/project".$project_id;
-	mkdir($newdir,0700) or DBError(__FILE__.":".__LINE__);
+	mkdir($newdir,0700,true) or DBError(__FILE__.":".__LINE__);
 }
 
 // end of transaction

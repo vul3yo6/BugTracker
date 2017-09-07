@@ -90,7 +90,7 @@ $delete_old_mailto_sql = "delete from ".$GLOBALS['BR_proj_auto_mailto_table']." 
 $GLOBALS['connection']->Execute($delete_old_mailto_sql) or DBError(__FILE__.":".__LINE__);
 
 $auto_mail_array = array();
-for ($i=0; $i<6; $i++) {
+for ($i=0; $i<15; $i++) {
 	$this_arg = "auto_email_".$i;
 	if ($_POST[$this_arg] != -1) {
 		if (IsInArray($auto_mail_array, $_POST[$this_arg]) == -1) {
@@ -117,7 +117,7 @@ $delete_old_feedback_mailto_sql = "delete from ".$GLOBALS['BR_proj_feedback_mail
 $GLOBALS['connection']->Execute($delete_old_feedback_mailto_sql) or DBError(__FILE__.":".__LINE__);
 
 $feedback_mailto_array = array();
-for ($i=0; $i<6; $i++) {
+for ($i=0; $i<15; $i++) {
 	$this_arg = "feedback_mailto_".$i;
 	if ($_POST[$this_arg] != -1) {
 		if (IsInArray($feedback_mailto_array, $_POST[$this_arg]) == -1) {
